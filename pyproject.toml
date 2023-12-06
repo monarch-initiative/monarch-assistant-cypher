@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "cypher-explore-agent"
+version = "0.1.0"
+description = "Explorations in LLM-generated competency questions for neo4j databases, for fine tuning and other purposes."
+authors = ["Shawn O'Neil <oneilsh@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+kani = {extras = ["openai"], version = "^0.7.0"}
+streamlit = "^1.28.2"
+pandas = "^2.1.3"
+python-dotenv = "^1.0.0"
+neo4j = "^5.14.1"
+httpx = "^0.25.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
