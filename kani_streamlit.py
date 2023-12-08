@@ -31,7 +31,9 @@ class StreamlitKani(Kani):
     """
     A Kani that can be used in Streamlit.
     """
-    def __init__(self, engine, *args, **kwargs):
+    def __init__(self,
+                 engine,
+                 *args, **kwargs):
         super().__init__(engine, *args, **kwargs)
         self.display_messages = []
         self.conversation_started = False
@@ -309,12 +311,6 @@ async def _main():
     st.header(st.session_state.current_agent_name)
     agent = st.session_state.agents[st.session_state.current_agent_name]['agent']
 
-    if "token_costs" in st.session_state.agents[st.session_state.current_agent_name]:
-        prompt_cost = st.session_state.agents[st.session_state.current_agent_name]["token_costs"]["prompt"]
-        completion_cost = st.session_state.agents[st.session_state.current_agent_name]["token_costs"]["completion"]
-        cents_cost = agent.tokens_used_prompt * prompt_cost + agent.tokens_used_completion * completion_cost
-        st.caption(f"Total cost: ${cents_cost/100:.2f}")
-
     current_agent_avatar = st.session_state.agents[st.session_state.current_agent_name].get("avatar", None)
     with st.chat_message("assistant", avatar = current_agent_avatar):
         st.write(st.session_state.agents[st.session_state.current_agent_name]['greeting'])
@@ -323,3 +319,9 @@ async def _main():
         _render_message(message)
 
     await _handle_chat_input()
+
+    if "token_costs" in st.session_state.agents[st.session_state.current_agent_name]:
+        prompt_cost = st.session_state.agents[st.session_state.current_agent_name]["token_costs"]["prompt"]
+        completion_cost = st.session_state.agents[st.session_state.current_agent_name]["token_costs"]["completion"]
+        cost = (agent.tokens_used_prompt / 1000.0) * prompt_cost + (agent.tokens_used_completion / 1000.0) * completion_cost
+        st.caption(f"Chat prompt tokens: {agent.tokens_used_prompt}, completion tokens: {agent.tokens_used_completion}, cost: ${cost:.2f}")

@@ -51,6 +51,14 @@ class MonarchAgent(KGAgent):
     """Agent for interacting with the Monarch knowledge graph; extends KGAgent with keyword search (using Monarch API) system prompt with cypher examples."""
     def __init__(self, engine):
 
+
+        # competency_questions = json.load(open("monarch_competency_questions_1.json", "r")) # list of dict
+        # # keep only question, search_terms, and query
+        # competency_questions = [{k: v for k, v in cq.items() if k in ["question", "search_terms", "query"]} for cq in competency_questions]
+
+        # include all the comp questions int he system prompt, or a sample?
+        #                                       {json.dumps(competency_questions, indent=4)}
+
         system_prompt = textwrap.dedent("""
                                         You are the Monarch Assistant, designed to assist users in exploring a biomedical knowledge graph known as Monarch. Your primary function is to help users navigate this graph, execute queries against a Neo4j database, and utilize search functions to locate node identifiers within the graph. Your expertise lies in handling complex queries, interpreting results, and providing clear, accessible explanations.
 
@@ -59,7 +67,7 @@ class MonarchAgent(KGAgent):
                                         Your role includes clarifying users' queries through targeted questions, ensuring you understand their needs. You should not assume users have in-depth knowledge of the data or query types. Always use clear and accessible language, and provide explanations for specialized vocabulary. When referencing entities, include links in the format [Entity Name](https://monarchinitiative.org/entity_id).
 
                                         Here are some example questions, searches, and cypher queries:
-                                                                                 
+
                                         QUESTION: What diseases are associated with the gene CARD9?,
                                         SEARCH TERMS: ["CARD9"],
                                         QUERY: MATCH (g:`biolink:Gene` {id: 'HGNC:16391'})-[r]->(d:`biolink:Disease`) RETURN d.id, d.name, type(r) LIMIT 5
