@@ -1,50 +1,20 @@
 [
     {
-        "question": "What genes are associated with predisposition to invasive fungal disease due to CARD9 deficiency, and what is their relationship with this disease?",
+        "question": "What genes are associated with predisposition to invasive fungal disease due to CARD9 deficiency?",
         "search_terms": ["predisposition to invasive fungal disease due to CARD9 deficiency"],
-        "query": "MATCH (g:`biolink:Gene`)-[r]->(d:`biolink:Disease` {id: 'MONDO:0008905'}) RETURN g.id, g.name, type(r) LIMIT 5",
+        "query": "MATCH (g:`biolink:Gene`)-[r:`biolink:causes`]->(d:`biolink:Disease` {id: 'MONDO:0008905'}) RETURN g.id, g.name LIMIT 5",
         "expected_answer": "The gene CARD9 (HGNC:16391) is associated with the disease 'predisposition to invasive fungal disease due to CARD9 deficiency' (MONDO:0008905) with relationships 'biolink:gene_associated_with_condition' and 'biolink:causes'."
     },
     {
-        "question": "What genes are associated with neurodevelopmental disorder with dysmorphic facies and distal limb anomalies, and what are their relationships?",
-        "search_terms": ["neurodevelopmental disorder with dysmorphic facies and distal limb anomalies"],
-        "query": "MATCH (g:`biolink:Gene`)-[r]->(d:`biolink:Disease` {id: 'MONDO:0060596'}) RETURN g.id, g.name, type(r) LIMIT 5",
-        "expected_answer": "The disease 'neurodevelopmental disorder with dysmorphic facies and distal limb anomalies' (MONDO:0060596) is associated with the genes BPTF (HGNC:3581), WDFY3 (HGNC:20751), TAF4 (HGNC:11537), EIF4A2 (HGNC:3284), and SYNCRIP (HGNC:16918). The relationships include 'biolink:causes' for BPTF and 'biolink:gene_associated_with_condition' for the others."
-    },
-    {
-        "question": "What diseases are associated with the gene CARD9?",
-        "search_terms": ["CARD9"],
-        "query": "MATCH (g:`biolink:Gene` {id: 'HGNC:16391'})-[r]->(d:`biolink:Disease`) RETURN d.id, d.name, type(r) LIMIT 5",
-        "expected_answer": "The gene CARD9 (HGNC:16391) is associated with the disease 'predisposition to invasive fungal disease due to CARD9 deficiency' (MONDO:0008905) through two types of relationships: 'biolink:causes' and 'biolink:gene_associated_with_condition'."
-    },
-    {
-        "question": "What diseases are related to TAF4, and through what types of relationships?",
+        "question": "List all of the diseases known to be related to TAF4.",
         "search_terms": ["TAF4"],
-        "query": "MATCH (g:`biolink:Gene` {id: 'HGNC:11537'})-[r]->(d:`biolink:Disease`) RETURN d.id, d.name, type(r) LIMIT 5",
+        "query": "MATCH (g:`biolink:Gene` {id: 'HGNC:11537'})-[r]-(d:`biolink:Disease`) RETURN d.id, d.name, type(r)",
         "expected_answer": "The gene TAF4 (HGNC:11537) is associated with the disease 'neurodevelopmental disorder with dysmorphic facies and distal limb anomalies' (MONDO:0060596) through the relationship 'biolink:gene_associated_with_condition'."
-    },
-    {
-        "question": "What phenotypic features are associated with mutations in CARD9?",
-        "search_terms": ["CARD9"],
-        "query": "MATCH (g:`biolink:Gene` {id: 'HGNC:16391'})-[r]->(p:`biolink:PhenotypicFeature`) RETURN p.id, p.name, type(r) LIMIT 5",
-        "expected_answer": "Mutations in the gene CARD9 (HGNC:16391) are associated with phenotypic features such as Childhood onset (HP:0011463), Lymphadenopathy (HP:0002716), Abnormal proportion of CD4-positive T cells (HP:0031392), Onychomycosis (HP:0012203), and Increased circulating IgE level (HP:0003212), all related through a 'biolink:has_phenotype' relationship."
-    },
-    {
-        "question": "What phenotypic features are commonly observed in patients with neurodevelopmental disorder with dysmorphic facies and distal limb anomalies?",
-        "search_terms": ["neurodevelopmental disorder with dysmorphic facies and distal limb anomalies"],
-        "query": "MATCH (d:`biolink:PhenotypicFeature`)<-[r]-(ds:`biolink:Disease` {id: 'MONDO:0060596'}) RETURN d.name, d.id, type(r) LIMIT 5",
-        "expected_answer": "Patients with the disease 'neurodevelopmental disorder with dysmorphic facies and distal limb anomalies' (MONDO:0060596) commonly present phenotypic features such as Short stature (HP:0004322), Microcephaly (HP:0000252), Slender finger (HP:0001238), Hypertelorism (HP:0000316), and Pes planus (HP:0001763), each displaying a 'biolink:has_phenotype' relationship."
-    },
-    {
-        "question": "How is arachidonic acid related to decreased arachidonic acid in the brain?",
-        "search_terms": ["arachidonic acid", "decreased arachidonic acid in the brain"],
-        "query": "MATCH (p:`biolink:PhenotypicFeature` {id: 'ZP:0100187'})-[r]->(c:`biolink:ChemicalEntity` {id: 'CHEBI:15843'}) RETURN p.id, p.name, c.id, c.name, type(r)",
-        "expected_answer": "Arachidonic acid (CHEBI:15843) is related to the phenotype 'arachidonic acid brain decreased amount, abnormal' (ZP:0100187) through a 'biolink:related_to' relationship, indicating a potential impact or association between the chemical and the phenotype."
     },
     {
         "question": "What is the relationship between abamectin and avermectin B1a?",
         "search_terms": ["abamectin", "avermectin B1a"],
-        "query": "MATCH (c1:`biolink:ChemicalEntity` {id: 'CHEBI:39214'})-[r:`biolink:related_to`]-(c2:`biolink:ChemicalEntity` {id: 'CHEBI:29534'}) RETURN c1.id, c1.name, c2.id, c2.name, type(r)",
+        "query": "MATCH (c1:`biolink:ChemicalEntity` {id: 'CHEBI:39214'})-[r]-(c2:`biolink:ChemicalEntity` {id: 'CHEBI:29534'}) RETURN c1.id, c1.name, c2.id, c2.name, type(r)",
         "expected_answer": "Abamectin (CHEBI:39214) is 'biolink:related_to' avermectin B1a (CHEBI:29534), suggesting a connection or similarity between these chemical entities."
     },
     {
@@ -66,22 +36,16 @@
         "expected_answer": "The disease 'predisposition to invasive fungal disease due to CARD9 deficiency' (MONDO:0008905) is associated with the gene CARD9 (HGNC:16391). Phenotypic features linked to this disease include 'Decreased serum iron', 'Deep dermatophytosis', 'Increased circulating IgE level', 'Abnormality of blood and blood-forming tissues', 'Meningitis', 'Abnormal B cell count', 'Abnormal proportion of CD4-positive T cells', 'Onychomycosis', 'Chronic oral candidiasis', 'Lymphadenopathy', 'Hypereosinophilia', 'Chronic tinea infection', 'Abnormal proportion of CD8-positive T cells', 'Abnormal natural killer cell count', and 'Immunodeficiency'."
     },
     {
-        "question": "What phenotypes are observed in diseases caused by mutations in the CARD9 gene?",
-        "search_terms": ["CARD9"],
-        "query": "MATCH (g:`biolink:Gene` {id: 'HGNC:16391'})-[:`biolink:gene_associated_with_condition`]->(d:`biolink:Disease`)-[:`biolink:has_phenotype`]->(p:`biolink:PhenotypicFeature`) RETURN d.id AS DiseaseID, d.name AS DiseaseName, collect(p.name) AS Phenotypes",
-        "expected_answer": "Diseases caused by mutations in the gene CARD9, such as predisposition to invasive fungal disease due to CARD9 deficiency (MONDO:0008905), have phenotypes like 'Decreased serum iron', 'Deep dermatophytosis', 'Increased circulating IgE level', 'Abnormality of blood and blood-forming tissues', 'Meningitis', 'Abnormal B cell count', 'Abnormal proportion of CD4-positive T cells', 'Onychomycosis', 'Chronic oral candidiasis', 'Lymphadenopathy', 'Hypereosinophilia', 'Chronic tinea infection', 'Abnormal proportion of CD8-positive T cells', 'Abnormal natural killer cell count', and 'Immunodeficiency'."
-    },
-    {
         "question": "What are all the subtypes or descendants of Ehlers-Danlos Syndrome?",
         "search_terms": ["Ehlers-Danlos Syndrome"],
         "query": "MATCH (d:`biolink:Disease` {id: 'MONDO:0020066'})<-[:`biolink:subclass_of`*]-(subD:`biolink:Disease`) RETURN subD.id AS SubtypeID, subD.name AS SubtypeName",
         "expected_answer": "Subtypes and descendants of Ehlers-Danlos Syndrome (MONDO:0020066) include 'Ehlers-Danlos syndrome, Beasley-Cohen type' (MONDO:0012114), 'Ehlers-Danlos syndrome, vascular-like type' (MONDO:0016469), 'Ehlers-Danlos syndrome, autosomal dominant, type unspecified' (MONDO:0007528), 'joint laxity, familial' (MONDO:0007842), 'Hern\\u00e1ndez-Aguirre Negrete syndrome' (MONDO:0016290), and various others covering different forms of the syndrome."
     },
     {
-        "question": "What are the top 5 phenotypes that are shared by more than one subtype of Ehlers-Danlos Syndrome?",
+        "question": "What are the most common phenotypes that are shared by more than one subtype of Ehlers-Danlos Syndrome?",
         "search_terms": ["Ehlers-Danlos Syndrome"],
         "query": "MATCH (eds:`biolink:Disease` {id: 'MONDO:0020066'})<-[:`biolink:subclass_of`*]-(subtype:`biolink:Disease`)-[:`biolink:has_phenotype`]->(p:`biolink:PhenotypicFeature`) WITH p, COUNT(DISTINCT subtype) as SubtypeCount WHERE SubtypeCount > 1 RETURN p.id as PhenotypeID, p.name as PhenotypeName, SubtypeCount ORDER BY SubtypeCount DESC LIMIT 5",
-        "expected_answer": "The top 5 phenotypes shared by more than one subtype of Ehlers-Danlos Syndrome, ordered from most to least common, are 'Hyperextensible skin' (HP:0000974) shared by 30 subtypes, 'Bruising susceptibility' (HP:0000978) shared by 26 subtypes, 'Inguinal hernia' (HP:0000023) shared by 21 subtypes, 'Atrophic scars' (HP:0001075) and 'Blue sclerae' (HP:0000592) both shared by 20 subtypes each."
+        "expected_answer": "The top phenotypes shared by more than one subtype of Ehlers-Danlos Syndrome, ordered from most to least common, are 'Hyperextensible skin' (HP:0000974) shared by 30 subtypes, 'Bruising susceptibility' (HP:0000978) shared by 26 subtypes, 'Inguinal hernia' (HP:0000023) shared by 21 subtypes, 'Atrophic scars' (HP:0001075) and 'Blue sclerae' (HP:0000592) both shared by 20 subtypes each."
     },
     {
         "question": "What disease categories does Ehlers-Danlos Syndrome fall into?",
@@ -90,7 +54,7 @@
         "expected_answer": "Ehlers-Danlos Syndrome falls into the following disease categories, from most to least specific: developmental defect during embryogenesis (MONDO:0019755), hereditary disease (MONDO:0003847), syndromic disease (MONDO:0002254), disorder of development or morphogenesis (MONDO:0021147), human disease (MONDO:0700096), and disease (MONDO:0000001)."
     },
     {
-        "question": "What phenotypes are shared by EDS or its descendants and Cystic Fibrosis and its descendants?",
+        "question": "What phenotypes are shared by EDS or its descendants, and Cystic Fibrosis or its descendants?",
         "search_terms": ["Ehlers-Danlos Syndrome", "Cystic Fibrosis"],
         "query": "MATCH (eds:`biolink:Disease` {id: 'MONDO:0020066'})<-[:`biolink:subclass_of`*0..]-(descEDS:`biolink:Disease`)-[:`biolink:has_phenotype`]->(phen:`biolink:PhenotypicFeature`), (cf:`biolink:Disease` {id: 'MONDO:0009061'})<-[:`biolink:subclass_of`*0..]-(descCF:`biolink:Disease`) WHERE (descCF)-[:`biolink:has_phenotype`]->(phen) WITH phen, COUNT(DISTINCT descEDS) AS EdsCount, COUNT(DISTINCT descCF) AS CfCount RETURN phen.id AS PhenotypeID, phen.name AS PhenotypeName, EdsCount, CfCount ORDER BY CfCount DESC, EdsCount DESC",
         "expected_answer": "The shared phenotypes should be displayed, with phenotypic features such as Osteopenia and Hearing impairment among the top results shared by both disease groups and their descendants."
@@ -102,7 +66,7 @@
         "expected_answer": "The top five genes with the highest number of associated diseases are LMNA (HGNC:6636) with 20 diseases, COL2A1 (HGNC:2200) with 19 diseases, HBB (HGNC:4827) with 19 diseases, TP53 (HGNC:11998) with 18 diseases, and PTEN (HGNC:9588) with 18 diseases."
     },
     {
-        "question": "How are CARD9, LZTR1, and fungal disease due to CARD9 deficiency connected?",
+        "question": "What are the shortest paths between CARD9, LZTR1, and fungal disease due to CARD9 deficiency?",
         "search_terms": ["CARD9", "LZTR1", "fungal disease due to CARD9 deficiency"],
         "query": "WITH ['HGNC:16391', 'HGNC:6742', 'MONDO:0008905'] AS ids\n\n// Generate all unique pairs of IDs\nUNWIND ids AS id1\nUNWIND ids AS id2\nWITH id1, id2\nWHERE id1 < id2\n\n// Find the shortest paths for each pair\nMATCH p = shortestPath((start {id: id1})-[*]-(end {id: id2}))\nWITH id1, id2, p\nWHERE p IS NOT NULL\n\n// Extract the node IDs and names, and the relationship types\nWITH id1, id2, [node IN nodes(p) | node.id + '/' + node.name] AS nodeIds, p\n\n// Construct the path string with correct direction\nWITH id1, id2, nodeIds,\nreduce(s = '', idx IN range(0, length(p)-1) |\ns + nodeIds[idx] + CASE \nWHEN STARTNODE(relationships(p)[idx]) = nodes(p)[idx]\nTHEN ' -[' + type(relationships(p)[idx]) + ']-> ' \nELSE ' <-[' + type(relationships(p)[idx]) + ']- ' \nEND)\n+ last(nodeIds) AS pathString\n\n// Create the final table\nRETURN id1, id2, pathString",
         "expected_answer": "The shortest paths between a specified set of identifiers, which includes a mix of genes and diseases, reveal connections such as 'CARD9 -[enables]-> protein binding <-[enables]- LZTR1' and 'CARD9 -[causes]-> predisposition to invasive fungal disease due to CARD9 deficiency'. These paths include node names, relationship types, and directions, providing insight into the complex interactions within the dataset."
@@ -112,11 +76,5 @@
         "search_terms": ["Homo sapiens", "Mus musculus"],
         "query": "MATCH (g: `biolink:Gene`)-[r: `biolink:orthologous_to`]->(g2: `biolink:Gene`) WHERE 'NCBITaxon:9606' IN g.in_taxon AND 'NCBITaxon:10090' IN g2.in_taxon RETURN COUNT(r) AS orthologous_gene_pairs",
         "expected_answer": "25121"
-    },
-    {
-        "question": "Which genes have orthology to the most number of taxa? Show at most 10.",
-        "search_terms": [],
-        "query": "MATCH (g:`biolink:Gene`)-[:`biolink:orthologous_to`]->(g2:`biolink:Gene`) WITH g, COLLECT(DISTINCT g2.in_taxon) AS taxa_lists WITH g, REDUCE(s = [], t IN taxa_lists | s + t) AS taxa_list WITH g, SIZE(REDUCE(s = [], taxa IN taxa_list | s + taxa)) AS num_taxa ORDER BY num_taxa DESC RETURN g.id AS gene_id, g.name AS gene_name, num_taxa LIMIT 10",
-        "expected_answer": "Up to ten genes that have orthologies with the most taxa are HMGB1, RPL19, UBA52, HMGB1P1, AMT, EIF4A3, SRP54, GAPDH, GNB1, and RPL6, each orthologous to 11 different taxa. This count of 11 may be shared by additional genes beyond these ten."
     }
 ]

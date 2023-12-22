@@ -7,7 +7,6 @@
 # for reading API keys from .env file
 import os
 import dotenv # pip install python-dotenv
-import dotenv
 dotenv.load_dotenv() 
 
 # kani related imports
@@ -48,7 +47,7 @@ ks.initialize_app_config(
 # StreamlitKani agents are Kani agents and work the same
 # We must subclass StreamlitKani instead of Kani to get the Streamlit UI
 # define an engine to use (see Kani documentation for more info)
-engine = OpenAIEngine(os.environ["OPENAI_API_KEY"], model="gpt-4-1106-preview")
+engine = OpenAIEngine(os.environ["OPENAI_API_KEY"], model="gpt-4-1106-preview", temperature=0)
 
 
 # We also have to define a function that returns a dictionary of agents to serve
